@@ -16,6 +16,8 @@ In this script, you must log each request into the sqlite database in this proje
 
 Second, you are expected to write a second script that reads from this database, calculates the service uptime, and outputs it to the console.
 
+Tip: You can accurately detect uptime by monitoring for 10 minutes with >1 req/s.
+
 ### The Bug
 
 There is a bug in this application pertaining the format of names. The API will return a specific error when this happens - you are expected to find out the pattern of this error.
