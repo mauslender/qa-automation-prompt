@@ -30,4 +30,5 @@ Please commit the request_logs database as you store data on it.
 
 - Bonus points for doing this in Ruby (even if it’s not your main language). Otherwise python or Javascript is preferred.
 - The Bug is not contrived - it does not require lateral thinking.
-- You are welcome to use tooling like Postman, but the deliverable includes scripts.
+- You are welcome to use tooling like Postman, but the deliverable must includes scripts that executre requests and read from the database.
+- Any questions about the challenge, please ask at gabriel@silver.dev.
