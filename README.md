@@ -12,7 +12,7 @@ This API endpoint has two issues you are expected to find and fix.
 
 You are expected to find out what the actual service uptime is as expressed in time (% of time service returns 200) or requests (% of requests that return 200).
 To do this, you are expected to build a continuously monitoring script.
-In this script, you must log each request into the sqlite database in this project.
+In this script, you must log each request into the SQlite database in this project.
 
 Second, you are expected to write a second script that reads from this database, calculates the service uptime, and outputs it to the console.
 
@@ -20,15 +20,17 @@ Tip: You can accurately detect uptime by monitoring for 10 minutes with >1 req/s
 
 ### The Bug
 
-There is a bug in this application pertaining the format of names. The API will return a specific error when this happens - you are expected to find out the pattern of this error.
+There is a bug in this application pertaining to the format of names. The API will return a specific error when this happens - you are expected to find out the pattern of this error.
 
 ## Deliverable
-Create a private fork of this respository and send it over to @conanbatt for review.
+Create a private fork of this repository and send it over to @conanbatt for review.
 Please commit the request_logs database as you store data on it.
+
+You are expected to deliver a reproducible case of the bug, as well as a well-defined uptime number in your deliverable.
 
 ### Tips & Tricks
 
-- Bonus points for doing this in Ruby (even if it’s not your main language). Otherwise python or Javascript is preferred.
+- Bonus points for doing this in Ruby (even if it’s not your main language). Otherwise, python or Javascript is preferred.
 - The Bug is not contrived - it does not require lateral thinking.
 - You are welcome to use tooling like Postman, but the deliverable must includes scripts that executre requests and read from the database.
 - Any questions about the challenge, please ask at gabriel@silver.dev.
