@@ -20,16 +20,17 @@ Tip: You can accurately detect uptime by monitoring for 10 minutes with >1 req/s
 
 ### The Bug
 
-There is a bug in this application pertaining to the format of names. The API will return a specific error when this happens - you are expected to find out the pattern of this error.
+There is a bug in this application about the format of names. The API will return a specific error when this happens - you are expected to find out the pattern of this error.
 
 ## Deliverable
 Create a private fork of this repository and send it over to @conanbatt for review.
 Please commit the request_logs database as you store data on it.
 
-You are expected to deliver a reproducible case of the bug, as well as a well-defined uptime number in your deliverable.
+You are expected to deliver a reproducible case of the bug, as well as a well-defined uptime number in your deliverable. 
 
 ### Tips & Tricks
 
+- It's very important to give your best on this challenge. Please check the [Takehome Guide](https://docs.silver.dev/interview-ready/technical-fundamentals/guia-de-takehomes) to understand what makes an exceptional takehome.
 - Bonus points for doing this in Ruby (even if it’s not your main language). Otherwise, python or Javascript is preferred.
 - The Bug is not contrived - it does not require lateral thinking.
 - You are welcome to use tooling like Postman, but the deliverable must includes scripts that executre requests and read from the database.
