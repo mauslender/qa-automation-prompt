@@ -1,85 +1,33 @@
 # QA Automation Challenge (Ruby)
 
-This project is a solution to the **QA Automation Challenge**. It monitors an API, logs request results into a local SQLite database, calculates uptime, and helps identify a bug in name validation.
+## Overview
+This Ruby project monitors the uptime of a public API by sending periodic POST requests and storing the responses in a SQLite database for analysis.
 
-## 📦 Setup
+## The Bug
+**Description**:  
+The API returns a `500 Internal Server Error` when the `name` field in the POST request exceeds **29 characters** in length.
 
-### 1. Clone or unzip the project
+**Steps to Reproduce**:
+1. Open a terminal.
+2. Run the following command with any name longer than 29 characters:  
+   ```bash
+   curl -X POST https://qa-challenge-nine.vercel.app/api/name-checker -d "name=your_long_name_here"
 
-If you downloaded the `.zip`:
 
-```bash
-unzip qa_automation_challenge_ruby.zip
-cd qa_automation_challenge_ruby
-```
+**Expected result**:
+{"name":"[name_with_more_than_29_characters]"}
 
-### 2. Install dependencies
+**Actual result**:
+{"message":"Unexpected server error"}
 
-Ensure Ruby is installed, then:
+## Uptime
+Uptime Monitoring
+To ensure an accurate uptime calculation, the monitoring script was updated to avoid sending names longer than 29 characters, which would otherwise introduce false negatives due to the bug.
 
-```bash
-gem install bundler
-bundle install
-```
+Uptime Results (after 10 minutes):
 
-## 🚀 Scripts
+Total Requests: 721
 
-### `monitor_api.rb`
-Sends 1 request/second to the API and logs:
-- URL
-- name sent
-- response status
-- response text
-- timestamp
+Successful Requests: 589
 
-```bash
-ruby monitor_api.rb
-```
-
-Let it run for **10+ minutes** to capture a meaningful dataset.
-
----
-
-### `calculate_uptime.rb`
-Reads `request_logs.db` and calculates the uptime based on percentage of requests with status `200`.
-
-```bash
-ruby calculate_uptime.rb
-```
-
----
-
-### `find_bug.rb`
-Finds failed requests in the database and prints them to help detect the input bug related to name formatting.
-
-```bash
-ruby find_bug.rb
-```
-
----
-
-## 📁 Files
-
-| File                | Description                                 |
-|---------------------|---------------------------------------------|
-| `monitor_api.rb`    | Logs API response data into SQLite          |
-| `calculate_uptime.rb` | Calculates and prints the service uptime   |
-| `find_bug.rb`       | Helps identify the bug in name handling     |
-| `request_logs.db`   | The SQLite database storing request logs    |
-| `Gemfile`           | Dependency declarations (`httparty`, `sqlite3`) |
-| `README.md`         | You're reading it!                          |
-
----
-
-## ✅ Deliverable
-
-- Commit the `request_logs.db` file after running the monitor script
-- Push the project to a **private GitHub repository**
-- Share it with `@conanbatt`
-
----
-
-## 💡 Notes
-
-- Ruby was used as a bonus.
-- Database is persistent and all scripts are runnable independently.
+Uptime: 81.69%
