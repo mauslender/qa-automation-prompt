@@ -15,7 +15,7 @@ The API returns a `500 Internal Server Error` when the `name` field in the POST 
 
 
 **Expected result**:
-{"name":"[name_with_more_than_29_characters]"}
+{"name":"your_long_name_here"}
 
 **Actual result**:
 {"message":"Unexpected server error"}
