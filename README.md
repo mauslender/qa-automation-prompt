@@ -1,33 +1,122 @@
-# QA Automation Challenge (Ruby)
+# QA API Monitoring Challenge
 
-## Overview
-This Ruby project monitors the uptime of a public API by sending periodic POST requests and storing the responses in a SQLite database for analysis.
+This project monitors a buggy API by sending requests regularly and analyzing failures.
 
-## The Bug
-**Description**:  
-The API returns a `500 Internal Server Error` when the `name` field in the POST request exceeds **29 characters** in length.
+## 🧰 Tech Stack
 
-**Steps to Reproduce**:
-1. Open a terminal.
-2. Run the following command with any name longer than 29 characters:  
-   ```bash
-   curl -X POST https://qa-challenge-nine.vercel.app/api/name-checker -d "name=your_long_name_here"
+- Ruby
+- SQLite3
+- Net::HTTP
 
+## 📂 Files in This Project
+| File                  | Purpose                                        |
+| --------------------- | ---------------------------------------------- |
+| `monitor_api.rb`      | Sends requests and logs responses              |
+| `calculate_uptime.rb` | Calculates uptime based on DB entries          |
+| `request_logs.db`     | SQLite database of all requests (auto-created) |
 
-**Expected result**:
-{"name":"your_long_name_here"}
+## 🛠 Setup Instructions
 
-**Actual result**:
+### 1. Install Ruby
+
+```bash
+# Example: Download Ruby 3.2.x with DevKit (adjust version accordingly)
+curl -LO https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.2.2-1/rubyinstaller-devkit-3.2.2-1-x64.exe
+
+# Run the installer (this will launch Windows GUI installer)
+cmd.exe /c rubyinstaller-devkit-3.2.2-1-x64.exe
+```
+
+Follow the installation wizard (GUI).
+
+After install, open a new bash or cmd terminal and check:
+
+```bash
+ruby --version
+gcc --version   # part of DevKit
+```
+
+### 2. Install SQLite
+
+```bash
+gem install sqlite3
+```
+
+### 3. Note
+
+If you encounter issues installing `sqlite3`, do this:
+
+```bash
+gem uninstall sqlite3
+```
+
+```bash
+ridk install
+```
+
+✅ Select:
+- MSYS2 base installation  
+- MSYS2 development toolchain
+
+Then retry:
+
+```bash
+gem install sqlite3 --platform=ruby
+```
+
+### 3. Run the Monitor
+
+```bash
+ruby monitor_api.rb
+```
+
+It will generate and log requests into `request_logs.db`.
+
+### 4. Check Uptime
+
+```bash
+ruby calculate_uptime.rb
+```
+
+## 🧹 Cleanup
+To reset the logs:
+
+```bash
+rm request_logs.db
+```
+Then re-run monitor_api.rb to start fresh.
+
+## ✅ Test Cases Covered
+
+- Continuous uptime monitoring (request every 0.5s)
+- SQLite database logging
+- Graceful handling of errors
+
+## 🧪 Bugs Identified
+
+### 1. System Downtime Pattern
+The API returns a 500 error with message "System is down" at specific seconds, consistently:
+
+:01, :12, :23, :34, :45, :56
+This suggests the server may run internal checks or maintenance jobs every 11 seconds, starting at :01.
+
+### 2. Name Bug
+If a name contains **two or more `'p'` characters**, the API crashes with a 500 error:  
+```json
 {"message":"Unexpected server error"}
+```
 
-## Uptime
-Uptime Monitoring
-To ensure an accurate uptime calculation, the monitoring script was updated to avoid sending names longer than 29 characters, which would otherwise introduce false negatives due to the bug.
+This is being avoided in the current monitor by excluding such names.
 
-Uptime Results (after 10 minutes):
+## 📋 Methodical Testing Scheme
 
-Total Requests: 721
+1. **Automated request generation** at a fixed interval.
+2. **SQLite database** used for logging every request and its result.
+3. Uptime measured by ratio of HTTP 200s over total requests.
+4. Filtering of input to bypass known bugs and isolate external causes of failure.
 
-Successful Requests: 589
+## Uptime Final Findings:
 
-Uptime: 81.69%
+Total Requests: 790
+Successful Requests: 725
+**Uptime: 91.77%**

@@ -6,7 +6,6 @@ require 'sqlite3'
 REQUESTS_PER_SECOND = 4
 INTERVAL = 2.0 / REQUESTS_PER_SECOND
 API_URL = 'https://qa-challenge-nine.vercel.app/api/name-checker'
-MAX_NAME_LENGTH = 29
 
 # === DATABASE SETUP ===
 db = SQLite3::Database.new 'request_logs.db'
@@ -23,12 +22,13 @@ SQL
 
 # === NAME GENERATOR ===
 def generate_random_name
-  charset = ('a'..'z').to_a + [' ', ' ', ' ', ' ']  # Bias toward including spaces
-  length = rand(1..MAX_NAME_LENGTH)
-  name = Array.new(length) { charset.sample }.join
-
-  # Clean up: remove leading/trailing and duplicate spaces
-  name.strip.squeeze(' ')
+  charset = ('a'..'z').to_a + [' ', ' ', ' ', ' ']
+  loop do
+    length = rand(1..100)  # No max length restriction, arbitrarily capped at 100 to avoid overly long names
+    name = Array.new(length) { charset.sample }.join
+    cleaned_name = name.strip.squeeze(' ')
+    return cleaned_name if cleaned_name.downcase.count('p') < 2
+  end
 end
 
 # === MAIN LOOP ===
